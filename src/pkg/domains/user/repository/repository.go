@@ -16,7 +16,7 @@ func OpenBD() (sql.DB, error) {
 	return *db, nil
 }
 
-func UpsertUser(user model.CreateUserRequest) (string, error) {
+func UpsertUser(user model.User) (string, error) {
 	db, err := OpenBD()
 	if err != nil {
 		return "Erro na conexao com banco", err
@@ -35,7 +35,7 @@ func UpsertUser(user model.CreateUserRequest) (string, error) {
 	return "Transação concluida", nil
 }
 
-func GETUSER() {
+func GetUser() {
 
 }
 

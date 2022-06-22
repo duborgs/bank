@@ -3,6 +3,7 @@ package model
 import "fmt"
 
 type User struct {
+	ID    int64
 	NOME  string
 	TIPO  string
 	CPF   string
@@ -12,12 +13,21 @@ type User struct {
 	SALDO string
 }
 
-type CreateUserRequest struct {
-	ID    string
-	SALDO string
+func FormatQuery(user User) string {
+	query := fmt.Sprintf("UPDATE USUARIOS SET SALDO = %s WHERE ID = %v ;", user.SALDO, user.ID)
+	return query
 }
 
-func FormatQuery(user CreateUserRequest) string {
-	query := fmt.Sprintf("UPDATE USUARIOS SET SALDO = %s WHERE ID = %s ;", user.SALDO, user.ID)
-	return query
+func GetUser() {
+
+}
+
+/*
+BUSCA O PRIMEIRO USUARIO E SEGUNDO USUARIO
+	VALIDA SE EXISTE
+	O TIPO
+	VALIDA O SALDO
+*/
+func GetType() {
+
 }
