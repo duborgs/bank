@@ -1,3 +1,7 @@
 package transport
 
-/*Responsavel por decodificar o HTTP*/
+import "net/http"
+
+func UpsertHandler(w http.Request, r http.ResponseWriter) {
+
+}
