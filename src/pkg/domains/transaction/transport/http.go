@@ -12,6 +12,8 @@ import (
 var (
 	request transaction.Transaction
 	err     error
+	msg     string
+	msgErro int
 )
 
 func TransactionHandle(w http.ResponseWriter, r *http.Request) {
@@ -23,13 +25,13 @@ func TransactionHandle(w http.ResponseWriter, r *http.Request) {
 
 	request.IDOrigin, err = strconv.ParseInt(r.FormValue("payer"), 0, 64)
 	if err != nil {
-		log.Print("Erro ao realizar parse do IDOrigin")
+		fmt.Fprint(w, "Erro ao realizar parse do Payer")
 		return
 	}
 
 	request.IDDestin, err = strconv.ParseInt(r.FormValue("payee"), 0, 64)
 	if err != nil {
-		log.Print("Erro ao realizar parse do IDOrigin")
+		fmt.Fprint(w, "Erro ao realizar parse do Payer")
 		return
 	}
 
@@ -38,7 +40,8 @@ func TransactionHandle(w http.ResponseWriter, r *http.Request) {
 		log.Print("Erro ao realizar parse do IDOrigin")
 		return
 	}
-	service.MakeTransaction(request)
 
-	fmt.Printf("Bateu no handler")
+	msg, err = service.MakeTransaction(request)
+	fmt.Fprintf(w, "%v", msg)
+
 }

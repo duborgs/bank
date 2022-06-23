@@ -2,19 +2,17 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-/*
 const (
 	USER       = "ROOT"
 	PASSWORD   = "123456"
 	DB         = "Q2"
+	PORT       = 3307
 	PASSWORDDB = "123456"
 )
-*/
 
 func OpenDB() (sql.DB, error) {
 
@@ -25,8 +23,6 @@ func OpenDB() (sql.DB, error) {
 		return *db, err
 	}
 	defer db.Close()
-
-	fmt.Print("Conexão Realizada")
 
 	return *db, nil
 }

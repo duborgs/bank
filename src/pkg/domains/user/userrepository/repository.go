@@ -1,7 +1,6 @@
 package userRepository
 
 import (
-	"fmt"
 	"pkg/db"
 	"pkg/domains/user/user"
 
@@ -17,12 +16,11 @@ func UpsertUser(userUp user.User) error {
 
 	query := user.FormatQueryUpdate(userUp)
 
-	up, err := db.Exec(query)
+	_, err = db.Exec(query)
 	if err != nil {
+
 		return err
 	}
-
-	fmt.Print(up)
 
 	db.Close()
 

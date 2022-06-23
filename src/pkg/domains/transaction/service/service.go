@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"pkg/domains/transaction/transaction"
 	"pkg/domains/transaction/transactionRepository"
@@ -22,7 +21,7 @@ func MakeTransaction(MTransaction transaction.Transaction) (string, error) {
 
 	mock, err := GetMock()
 	if err != nil {
-		return "Erro na busca do mock", err
+		return "Erro ao buscar mock", err
 	}
 
 	if mock != true {
@@ -31,23 +30,24 @@ func MakeTransaction(MTransaction transaction.Transaction) (string, error) {
 
 	payer, err := user.GetUserID(MTransaction.IDOrigin)
 	if err != nil {
-		log.Fatal("Payer não existe")
+		return "Payer não existe", err
 	}
 
 	payee, err := user.GetUserID(MTransaction.IDDestin)
 	if err != nil {
-		log.Fatal("Payee não existe")
+		return "Payee não existe", err
 	}
 
 	token, cond := ValidatePayer(payer, MTransaction.Value)
 	if token != true {
-		log.Fatalf("Permissão negada: a%v", cond)
+
+		validadeMSG := fmt.Sprintf("Permissão negada: %v", cond)
+		return validadeMSG, err
 	}
 
 	err = transactionRepository.InsertTransaction(MTransaction)
 	if err != nil {
-		fmt.Print("Erro ao inserir transação")
-		log.Fatal(err)
+		return "Erro ao inserir transação no banco", err
 	}
 
 	payer.SALDO = payer.SALDO - MTransaction.Value
@@ -57,23 +57,21 @@ func MakeTransaction(MTransaction transaction.Transaction) (string, error) {
 	err = userRepository.UpsertUser(payer)
 
 	if err != nil {
-		fmt.Print("Erro ao atualizar saldo")
-		log.Fatal(err)
+		return "Erro ao atualizar saldo do payer", err
 	}
 
 	err = userRepository.UpsertUser(payee)
 	if err != nil {
-		fmt.Print("Erro ao atualizar saldo")
-		log.Fatal(err)
+		return "Erro ao atualizar saldo do payee", err
 	}
 
-	return "Nada", nil
+	return "Transaction completed successfully", nil
 }
 
 func ValidatePayer(payer user.User, Wallet float64) (bool, string) {
 
 	if payer.TIPO != "comum" {
-		return false, "Somente lojistas podem fazer transferencia"
+		return false, "Lojistas não podem fazer transferencia"
 	}
 
 	if payer.SALDO < Wallet {
@@ -84,10 +82,9 @@ func ValidatePayer(payer user.User, Wallet float64) (bool, string) {
 }
 
 func GetMock() (bool, error) {
+
 	var url URL
 
-	fmt.Print(url)
-	fmt.Print("\n")
 	response, err := http.Get("https://run.mocky.io/v3/d02168c6-d88d-4ff2-aac6-9e9eb3425e31")
 	if err != nil {
 		return false, err
