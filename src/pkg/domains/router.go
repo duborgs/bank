@@ -2,16 +2,16 @@ package main
 
 import (
 	"net/http"
-	"pkg/domains/transaction/transport"
+	"pkg/domains/transaction/transactionTransport"
+	"pkg/domains/user/userTransport"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
-	// var tr transaction.Transaction
 
-	// tr = transaction.Transaction{IDOrigin: 1, IDDestin: 2, Value: 4000}
-
-	// service.MakeTransaction(tr)
-
-	http.HandleFunc("/transaction", transport.TransactionHandle)
+	http.HandleFunc("/transaction", transactionTransport.TransactionHandle)
+	http.HandleFunc("/GetUserID", userTransport.GetUserIDHandler)
 	http.ListenAndServe(":8080", nil)
+
 }

@@ -1,0 +1,14 @@
+version: '3.4'
+services:
+  mysql-docker:
+    build: .
+    ports:
+      - 3307:3306
+    container_name: mysql-docker
+    environment:       
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=123456
+    restart: always
+    volumes:
+      - ./src/pkg/db/data:/var/lib/mysql 
+    

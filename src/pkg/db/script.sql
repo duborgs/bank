@@ -1,36 +1,34 @@
-DROP DATABASE IF EXISTS q2bank;
+drop database if exists q2bank;
 
-CREATE DATABASE q2bank;
+create database q2bank;
 
-USE q2bank;
+use q2bank;
 
-CREATE TABLE USERS(
-    ID      INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    NAME_USER    VARCHAR(50) NOT NULL,
-    TYPE_USER    ENUM('lojista', 'comum'),
-    CPF_CNPJ       VARCHAR(50) UNIQUE,
-    EMAIL   VARCHAR(50) UNIQUE NOT NULL,
-    PASSWORD_USER   VARCHAR(50) NOT NULL,
-    WALLET   FLOAT(10.2) NOT NULL
+create table users(
+    id      int primary key not null auto_increment,
+    name_user    varchar(50) not null,
+    type_user    enum('commom', 'shopkeeper'),
+    CPF_CNPJ       varchar(50) unique,
+    email   varchar(50) unique not null,
+    password_user   varchar(50) not null,
+    wallet   FLOAT(10.2) not null
 );
 
-CREATE TABLE TRANSACTIONS(
-    ID INT PRIMARY KEY AUTO_INCREMENT,
-    AMOUNT FLOAT (10.2) NOT NULL,
-    ID_ORIGIN   INT NOT NULL,
-    ID_DEST INT NOT NULL,
-    DATE_TIME DATETIME NOT NULL
+create table transactions(
+    id int primary key auto_increment,
+    amount FLOAT (10.2) not null,
+    id_origin   int not null,
+    id_dest int not null,
+    date_time datetime not null
 );
 
-ALTER TABLE TRANSACTIONS
-ADD FOREIGN KEY (ID_ORIGIN) REFERENCES USERS(ID);
+alter table transactions
+add foreign key (id_origin) references users(id);
 
-ALTER TABLE TRANSACTIONS
-ADD FOREIGN KEY (ID_DEST) REFERENCES USERS(ID);
+alter table transactions
+add foreign key (id_dest) references users(id);
 
-INSERT INTO USERS (NAME_USER, TYPE_USER, CPF_CNPJ, EMAIL, PASSWORD_USER, WALLET) VALUES ('ANDERSON', 'comum', '123.123.123-90','anderson@gmail.com', '123456', 200.10);
-INSERT INTO USERS (NAME_USER, TYPE_USER, CPF_CNPJ, EMAIL, PASSWORD_USER, WALLET) VALUES ('MARIA', 'comum', '444.123.123-90', 'maria@gmail.com', '444444', 800.10);
-INSERT INTO USERS (NAME_USER, TYPE_USER, CPF_CNPJ, EMAIL, PASSWORD_USER, WALLET) VALUES ('ROBERTO', 'lojista', '444.123.988-90', 'roberto@hotmail.com', 'robertinho', 3000);
-
-INSERT INTO TRANSACTIONS (Amount, ID_ORIGIN, ID_DEST, DATE_TIME) VALUES (1000.12, 1, 2, '2022-06-23 00:16:12');
+insert into users (name_user, type_user, CPF_CNPJ, email, password_user, wallet) values ('Anderson Amaral Santos ', 'commom', '123.123.123-90','anderson@gmail.com', '123456', 1000.10);
+insert into users (name_user, type_user, CPF_CNPJ, email, password_user, wallet) values ('Maria Santa Cruz', 'commom', '444.123.123-90', 'maria@gmail.com', '444444', 800.10);
+insert into users (name_user, type_user, CPF_CNPJ, email, password_user, wallet) values ('Roberto Firmino da Silva', 'shopkeeper', '444.123.988-90', 'roberto@hotmail.com', 'robertinho', 3000);
 
