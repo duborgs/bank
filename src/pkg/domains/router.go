@@ -1,14 +1,17 @@
 package main
 
 import (
-	"pkg/domains/transaction/service"
-	"pkg/domains/transaction/transaction"
+	"net/http"
+	"pkg/domains/transaction/transport"
 )
 
 func main() {
-	var tr transaction.Transaction
+	// var tr transaction.Transaction
 
-	tr = transaction.Transaction{IDOrigin: 1, IDDestin: 2, Value: 0.1}
+	// tr = transaction.Transaction{IDOrigin: 1, IDDestin: 2, Value: 4000}
 
-	service.MakeTransaction(tr)
+	// service.MakeTransaction(tr)
+
+	http.HandleFunc("/transaction", transport.TransactionHandle)
+	http.ListenAndServe(":8080", nil)
 }
