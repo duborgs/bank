@@ -2,6 +2,6 @@ package transport
 
 import "net/http"
 
-func UpsertHandler(w http.ResponseWriter, r http.Request) {
+func TransactionHandler(w http.ResponseWriter, r http.Request) {
 
 }

@@ -1,20 +1,14 @@
 package main
 
 import (
-	"pkg/domains/transaction/model"
 	"pkg/domains/transaction/service"
+	"pkg/domains/transaction/transaction"
 )
 
-var transaction model.Transaction
-
 func main() {
-	/*
-		transaction = model.Transaction{Value: "1000.0"}
+	var tr transaction.Transaction
 
-		_, err := repository.InsertTransaction(transaction)
-		if err != nil {
-			fmt.Println(err)
-		}
-	*/
-	service.MakeTransaction(transaction)
+	tr = transaction.Transaction{IDOrigin: 1, IDDestin: 2, Value: 0.1}
+
+	service.MakeTransaction(tr)
 }
