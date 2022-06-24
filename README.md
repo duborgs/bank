@@ -13,9 +13,12 @@
      . cd src/pkg/domains
      . go run router.go  
   
-  # INICIALIZAÇÃO LOCAL
+  # INICIALIZAÇÃO COM MYSQL LOCAL
     . Copiar o arquivo script.sql em src/pkg/bd e executar no mysql local
-    . src/pkg/bd db, err := sql.Open("mysql", "usuario:senha@tcp(localhost)/q2bank")
+    . alterar o arquivo db.go (src/pkg/bd) para db, err := sql.Open("mysql", "usuario:senha@tcp(localhost)/q2bank")
+    . cd src/pkg/domains
+    . go run router.go
+    
   
 # BANCO DE DADOS
     . SGBD utilizado: MYSQL;
