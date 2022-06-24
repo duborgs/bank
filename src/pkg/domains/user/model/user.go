@@ -1,23 +1,36 @@
 package model
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type User struct {
-	NOME  string
-	TIPO  string
-	CPF   string
-	CNPJ  string
-	EMAIL string
-	SENHA string
-	SALDO string
+	ID       int64
+	Name     string
+	Type     string
+	CPF_CNPJ string
+	Email    string
+	Password string
+	Wallet   float64
 }
 
-type CreateUserRequest struct {
-	ID    string
-	SALDO string
+var (
+	query string
+)
+
+func FormatQueryUpdate(user User) string {
+	query = fmt.Sprintf("update users set wallet = %v where id = %v ;", user.Wallet, user.ID)
+	return query
 }
 
-func FormatQuery(user CreateUserRequest) string {
-	query := fmt.Sprintf("UPDATE USUARIOS SET SALDO = %s WHERE ID = %s ;", user.SALDO, user.ID)
+func FormatQueryGet(ID int64) string {
+	query = fmt.Sprintf("select * from users where id = %v", ID)
+	return query
+}
+
+func FormatQueryCreate(user User) string {
+	user.Type = fmt.Sprint("'" + user.Type + "'")
+
+	query = fmt.Sprintf("insert into users (name_user, type_user, CPF_CNPJ, email, password_user, wallet) values (%v, %v, %v, %v, %v, %v);", user.Name, user.Type, user.CPF_CNPJ, user.Email, user.Password, user.Wallet)
 	return query
 }

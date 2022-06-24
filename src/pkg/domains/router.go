@@ -1,19 +1,23 @@
 package main
 
 import (
-	"fmt"
-	"pkg/domains/transaction/model"
-	"pkg/domains/transaction/repository"
+	"net/http"
+	"pkg/domains/transaction/transport"
+	userTransport "pkg/domains/user/transport"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
-var transaction model.Transaction
-
 func main() {
-	transaction = model.Transaction{Value: "1000.0"}
 
-	_, err := repository.InsertTransaction(transaction)
-	if err != nil {
-		fmt.Println(err)
-	}
+	//Router transaction
+	http.HandleFunc("/transaction", transport.TransactionHandle)
+	http.HandleFunc("/getTransactions", transport.GetTransactionsHandler)
+
+	//Router user
+	http.HandleFunc("/getUserID", userTransport.GetUserIDHandler)
+	http.HandleFunc("/createUser", userTransport.CreateUserHandler)
+
+	http.ListenAndServe(":8080", nil)
 
 }

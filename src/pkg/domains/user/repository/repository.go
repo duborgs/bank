@@ -1,47 +1,84 @@
 package repository
 
 import (
-	"database/sql"
 	"fmt"
+	"pkg/db"
 	"pkg/domains/user/model"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func OpenBD() (sql.DB, error) {
-	db, err := sql.Open("mysql", "user:password@/dbname")
-	if err != nil {
-		return *db, err
-	}
-	return *db, nil
-}
+var (
+	err   error
+	query string
+)
 
-func UpsertUser(user model.CreateUserRequest) (string, error) {
-	db, err := OpenBD()
+func UpsertWallet(userUp model.User) error {
+
+	db, err := db.OpenDB()
 	if err != nil {
-		return "Erro na conexao com banco", err
+		return err
 	}
 
-	query := model.FormatQuery(user)
+	query := model.FormatQueryUpdate(userUp)
 
-	up, err := db.Exec("%s", query)
+	_, err = db.Exec(query)
 	if err != nil {
-		return "Erro ao realizar UPSERT", nil
+		return err
 	}
-
-	fmt.Print(up)
 
 	db.Close()
-	return "Transação concluida", nil
+
+	return nil
 }
 
-func GETUSER() {
+func GetUserID(ID int64) (model.User, error) {
 
+	var userID model.User
+
+	query = model.FormatQueryGet(ID)
+
+	db, err := db.OpenDB()
+	if err != nil {
+		fmt.Printf("Error opening Data Base	%v\n", err)
+		return userID, nil
+	}
+
+	defer db.Close()
+
+	date, err := db.Query(query)
+	if err != nil {
+		fmt.Printf("Error executing query %v\n", err)
+		return model.User{}, nil
+	}
+
+	date.Next()
+	err = date.Scan(&userID.ID, &userID.Name, &userID.Type, &userID.CPF_CNPJ, &userID.Email, &userID.Password, &userID.Wallet)
+	if err != nil {
+		fmt.Printf("Error when performing the scan %v\n", err)
+		return model.User{}, nil
+	}
+
+	return userID, nil
 }
 
-/*
-MOCK
-SE EXISTE OS DOIS USUARIOS
-SALDO
-TIPO DE USUARIO
-*/
+func CreateUser(user model.User) (string, error) {
+
+	db, err := db.OpenDB()
+	if err != nil {
+		return "Error opening Data Base", err
+	}
+
+	defer db.Close()
+
+	fmt.Print(user)
+
+	query = model.FormatQueryCreate(user)
+	fmt.Print(query)
+	_, err = db.Query(query)
+	if err != nil {
+		return "Error executing query", err
+	}
+	return "Successful query", nil
+
+}
