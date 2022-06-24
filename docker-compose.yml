@@ -9,6 +9,5 @@ services:
       - MYSQL_PASSWORD=root
       - MYSQL_ROOT_PASSWORD=123456
     restart: always
-    volumes:
-      - ./src/pkg/db/data:/var/lib/mysql 
+     
     

@@ -1,29 +1,39 @@
-package transactionService
+package service
 
 import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"pkg/domains/transaction/repository"
 	"pkg/domains/transaction/transaction"
-	"pkg/domains/transaction/transactionRepository"
-	"pkg/domains/user/user"
-	"pkg/domains/user/userRepository"
+	"pkg/domains/user/model"
+	userRepository "pkg/domains/user/repository"
+	"strconv"
 )
 
 type URL struct {
 	Authorization bool `json:"authorization"`
 }
 
-func GetTransactionID(ID user.User) {
+func GetTransactionID(ID model.User) {
 
 }
+
+var (
+	payer, payee        model.User
+	err                 error
+	mock                bool
+	IDConv              int64
+	transactionResponse []transaction.Transaction
+	response            []byte
+)
 
 func MakeTransaction(MTransaction transaction.Transaction) (string, error) {
 
 	/*DECODE DO MOCK*/
 
-	mock, err := GetMock()
+	mock, err = GetMock()
 	if err != nil {
 		return "Error fetching mock", err
 	}
@@ -32,12 +42,12 @@ func MakeTransaction(MTransaction transaction.Transaction) (string, error) {
 		return "Unavailable service", err
 	}
 
-	payer, err := userRepository.GetUserID(MTransaction.IDOrigin)
+	payer, err = userRepository.GetUserID(MTransaction.IDOrigin)
 	if err != nil {
 		return "Payer does not exist", err
 	}
 
-	payee, err := userRepository.GetUserID(MTransaction.IDDestin)
+	payee, err = userRepository.GetUserID(MTransaction.IDDestin)
 	if err != nil {
 		return "Payee does not exist", err
 	}
@@ -48,8 +58,7 @@ func MakeTransaction(MTransaction transaction.Transaction) (string, error) {
 		validadeMSG := fmt.Sprintf("Permission denied: %v", cond)
 		return validadeMSG, err
 	}
-
-	err = transactionRepository.InsertTransaction(MTransaction)
+	err = repository.InsertTransaction(MTransaction)
 	if err != nil {
 		return "Error entering transaction in Data Base", err
 	}
@@ -59,7 +68,6 @@ func MakeTransaction(MTransaction transaction.Transaction) (string, error) {
 	payee.Wallet += MTransaction.Value
 
 	err = userRepository.UpsertUser(payer)
-
 	if err != nil {
 		return "Error updating payer wallet", err
 	}
@@ -72,7 +80,7 @@ func MakeTransaction(MTransaction transaction.Transaction) (string, error) {
 	return "Transaction completed successfully", nil
 }
 
-func ValidatePayer(payer user.User, Wallet float64) (bool, string) {
+func ValidatePayer(payer model.User, Wallet float64) (bool, string) {
 
 	if payer.Type != "commom" {
 		return false, "Shopkeeper cannot transfer"
@@ -83,6 +91,25 @@ func ValidatePayer(payer user.User, Wallet float64) (bool, string) {
 	}
 
 	return true, ""
+}
+
+func GetTransactions(ID string) (string, error) {
+
+	IDConv, err = strconv.ParseInt(ID, 0, 64)
+	if err != nil {
+		return "Error in conversion:", err
+	}
+
+	transactionResponse, err = repository.GetTransactions(IDConv)
+	if err != nil {
+		return "Error fetching data from database:", err
+	}
+
+	response, err = json.Marshal(transactionResponse)
+	if err != nil {
+		return "Error when running marshal:", err
+	}
+	return string(response), nil
 }
 
 func GetMock() (bool, error) {

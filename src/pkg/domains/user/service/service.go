@@ -1,14 +1,17 @@
-package userService
+package service
 
 import (
 	"encoding/json"
-	"pkg/domains/user/userRepository"
+	"pkg/domains/user/model"
+	"pkg/domains/user/repository"
 	"strconv"
 )
 
 var (
-	IDConv int64
-	err    error
+	IDConv       int64
+	err          error
+	response     []byte
+	userResponse model.User
 )
 
 func GetUserID(ID string) (string, error) {
@@ -22,13 +25,14 @@ func GetUserID(ID string) (string, error) {
 		return "Error", err
 	}
 
-	userResponse, err := userRepository.GetUserID(IDConv)
+	userResponse, err = repository.GetUserID(IDConv)
 	if err != nil {
 		return "Error", err
 	}
+
 	userResponse.Password = ""
 
-	resp, err := json.Marshal(userResponse)
+	response, err = json.Marshal(userResponse)
 
-	return string(resp), nil
+	return string(response), nil
 }

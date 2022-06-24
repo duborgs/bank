@@ -1,9 +1,9 @@
-package userTransport
+package transport
 
 import (
 	"fmt"
 	"net/http"
-	"pkg/domains/user/userService"
+	"pkg/domains/user/service"
 )
 
 var (
@@ -21,7 +21,7 @@ func GetUserIDHandler(w http.ResponseWriter, r *http.Request) {
 
 	ID = r.FormValue("ID")
 
-	resp, err = userService.GetUserID(ID)
+	resp, err = service.GetUserID(ID)
 	if err != nil {
 		fmt.Print("Erro no getuser", err)
 		return

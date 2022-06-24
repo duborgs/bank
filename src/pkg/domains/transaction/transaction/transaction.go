@@ -19,3 +19,9 @@ func FormatQueryInsert(transaction Transaction) string {
 	query := fmt.Sprintf("insert into transactions (amount, id_origin, id_dest, date_time) values (%v, %v, %v, %v)", transaction.Value, transaction.IDOrigin, transaction.IDDestin, transaction.Day_Time)
 	return query
 }
+
+func FormatQueryGet(ID int64) string {
+
+	query := fmt.Sprintf("select id_origin, id_dest, date_time, amount from transactions where id_origin = %v or id_dest = %v", ID, ID)
+	return query
+}

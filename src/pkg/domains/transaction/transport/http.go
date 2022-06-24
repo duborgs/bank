@@ -1,19 +1,19 @@
-package transactionTransport
+package transport
 
 import (
 	"fmt"
 	"log"
 	"net/http"
+	"pkg/domains/transaction/service"
 	"pkg/domains/transaction/transaction"
-	"pkg/domains/transaction/transactionService"
 	"strconv"
 )
 
 var (
-	request transaction.Transaction
-	err     error
-	msg     string
-	msgErro int
+	request           transaction.Transaction
+	err               error
+	msg, response, ID string
+	msgErro           int
 )
 
 func TransactionHandle(w http.ResponseWriter, r *http.Request) {
@@ -45,7 +45,31 @@ func TransactionHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	msg, err = transactionService.MakeTransaction(request)
-	//fmt.Fprintf(w, "%v", msg)
+	msg, err = service.MakeTransaction(request)
 
+	fmt.Fprintf(w, "%v", msg)
+
+}
+
+func GetTransactionsHandler(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != http.MethodGet {
+		fmt.Fprint(w, "Method is not GET")
+		return
+	}
+
+	ID = r.FormValue("ID")
+
+	response, err = service.GetTransactions(ID)
+
+	if err != nil {
+		fmt.Print(err)
+		return
+	}
+	if response == "" {
+		fmt.Print(err)
+		return
+	}
+
+	fmt.Fprint(w, response)
 }
