@@ -8,14 +8,14 @@
   
 # INICIALIZANDO APLICAÇÃO COM DOCKER
     . Na pasta raiz
-    . docker-compose up
+    . docker-compose up -d
   
      . cd src/pkg/domains
      . go run router.go  
   
   # INICIALIZAÇÃO LOCAL
-    . Copiar o arquivo script em src/pkg/bd e executar no mysql local
-    . src/pkg/bd db, err := sql.Open("mysql", "usuarioMysql:senha@tcp(localhost)/q2bank")
+    . Copiar o arquivo script.sql em src/pkg/bd e executar no mysql local
+    . src/pkg/bd db, err := sql.Open("mysql", "usuario:senha@tcp(localhost)/q2bank")
   
 # BANCO DE DADOS
     . SGBD utilizado: MYSQL;
