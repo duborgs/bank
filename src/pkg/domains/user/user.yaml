@@ -1,0 +1,73 @@
+swagger: "2.0"
+info:
+  description: "Funcionalidades e strucs do dominio user da API BANK."
+  version: "1.0.0"
+  title: "Swagger Bank User"
+  contact:
+    email: "eduardo.borgesrp@gmail.com"
+tags:
+- name: "USER"
+  description: "Operações do usuário"
+schemes:
+- "http"
+paths:
+  /createUser:
+    post:
+      tags:
+      - "Create User"
+      summary: "Cria um user"
+      description: "Salva dados do form no banco."
+      operationId: "createUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Create objeto user"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses: 
+        default:
+          description: "User registered successfully"
+  /getUser:
+    get:
+      tags:
+      - "Get User"
+      summary: "Procura usuário por ID"
+      description: "Procura usuário por ID e devolve um objeto em Json"
+      operationId: "getUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "ID"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        "400":
+          description: "User not found"
+definitions:
+  User:
+    type: "object"
+    properties:
+      ID:
+        type: "integer"
+        format: "int64"
+      Name:
+        type: "string"
+      Type:
+        type: "string"
+      CPF_CNPJ:
+        type: "string"
+      Email:
+        type: "string"
+      Password:
+        type: "string"
+      Wallet:
+        type: "number"
+        format: "float64"
