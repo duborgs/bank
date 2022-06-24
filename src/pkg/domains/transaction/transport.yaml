@@ -1,0 +1,68 @@
+swagger: "2.0"
+info:
+  description: "Funcionalidades e strucs do dominio transaction da API BANK."
+  version: "1.0.0"
+  title: "Swagger Bank Transaction"
+  contact:
+    email: "eduardo.borgesrp@gmail.com"
+tags:
+- name: "USER"
+  description: "Operações de transação"
+schemes:
+- "http"
+paths:
+  /transaction:
+    post:
+      tags:
+      - "Criar transação"
+      summary: "Cria uma nova transação ao passar por todas as validações"
+      description: "Salva dados do form no banco."
+      operationId: "transaction"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Cria um objeto transaction"
+        required: true
+        schema:
+          $ref: "#/definitions/Transaction"
+      responses: 
+        default:
+          description: "User registered successfully"
+  /getTransactions:
+    get:
+      tags:
+      - "Get User"
+      summary: "Procura todas as transações feitas e recebidas por ID"
+      description: "Procura todas as transações por ID e devolve um slice de objet Json"
+      operationId: "getUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "ID"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Transaction"
+        "400":
+          description: "User not found"
+definitions:
+  Transaction:
+    type: "object"
+    properties:
+      Value:
+        type: "number"
+        format: "float64"
+      IDOrigin:
+        type: "integer"
+        format: "int64"
+      IDDest:
+        type: "integer"
+        format: "int64"
+      Day_Time:
+        type: "string"
