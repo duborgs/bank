@@ -35,5 +35,10 @@
         PRONTO! AGORA É SÓ REALIZAR QUERY'S!
 
         CTRL+D para sair do terminal
-    .Para usar banco local
+    . Para usar banco local
         db, err := sql.Open("mysql", "user:password@tcp(localhost)/banco") - src/pkg/db/db.go
+        
+# OBSERVAÇÕES
+    . Optei por não persistir os dados do container em um volume por conta do problema de autenticação do windows, somente administradores da máquina podem excluir a pasta. Linux não tem esse problema, pois pode utilizar o comando sudo chmod para resolver essa questãpo.
+    . Fiz uma valiadação para que um usuário comum não faça transferência para a própria conta.
+    . Código em inglês para todos os desenvolvedores (brasileiros e estrangeiros) entender, caso tenha necessidade, reutilizar o código.
