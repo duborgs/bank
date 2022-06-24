@@ -9,9 +9,15 @@ import (
 )
 
 func main() {
+
+	//Router transaction
 	http.HandleFunc("/transaction", transport.TransactionHandle)
-	http.HandleFunc("/getUserID", userTransport.GetUserIDHandler)
 	http.HandleFunc("/getTransactions", transport.GetTransactionsHandler)
+
+	//Router user
+	http.HandleFunc("/getUserID", userTransport.GetUserIDHandler)
+	http.HandleFunc("/createUser", userTransport.CreateUserHandler)
+
 	http.ListenAndServe(":8080", nil)
 
 }

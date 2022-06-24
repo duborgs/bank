@@ -6,14 +6,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-const (
-	USER       = "ROOT"
-	PASSWORD   = "123456"
-	DB         = "Q2"
-	PORT       = 3307
-	PASSWORDDB = "123456"
-)
-
 func OpenDB() (sql.DB, error) {
 
 	//db, err := sql.Open("mysql", "root:root@tcp(localhost)/banco")

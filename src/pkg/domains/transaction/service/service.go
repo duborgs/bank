@@ -67,12 +67,12 @@ func MakeTransaction(MTransaction transaction.Transaction) (string, error) {
 
 	payee.Wallet += MTransaction.Value
 
-	err = userRepository.UpsertUser(payer)
+	err = userRepository.UpsertWallet(payer)
 	if err != nil {
 		return "Error updating payer wallet", err
 	}
 
-	err = userRepository.UpsertUser(payee)
+	err = userRepository.UpsertWallet(payee)
 	if err != nil {
 		return "Error updating payee wallet", err
 	}

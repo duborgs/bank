@@ -10,7 +10,8 @@ import (
 var (
 	IDConv       int64
 	err          error
-	response     []byte
+	responseB    []byte
+	responseS    string
 	userResponse model.User
 )
 
@@ -32,7 +33,29 @@ func GetUserID(ID string) (string, error) {
 
 	userResponse.Password = ""
 
-	response, err = json.Marshal(userResponse)
+	responseB, err = json.Marshal(userResponse)
 
-	return string(response), nil
+	return string(responseB), nil
+}
+
+func CreateUser(userCreate model.User) (string, error) {
+
+	switch {
+	case userCreate.Type == "commom":
+		break
+	case userCreate.Type == "shopkeeper":
+		break
+	default:
+		return "Invalid type", err
+	}
+
+	if userCreate.Wallet < 0 {
+		return "Wallet cannot be negative", err
+	}
+
+	responseS, err = repository.CreateUser(userCreate)
+	if err != nil {
+		return responseS, err
+	}
+	return "User registered successfully", err
 }

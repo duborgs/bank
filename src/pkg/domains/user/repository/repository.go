@@ -8,7 +8,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func UpsertUser(userUp model.User) error {
+var (
+	err   error
+	query string
+)
+
+func UpsertWallet(userUp model.User) error {
 
 	db, err := db.OpenDB()
 	if err != nil {
@@ -31,7 +36,7 @@ func GetUserID(ID int64) (model.User, error) {
 
 	var userID model.User
 
-	query := model.FormatQueryGet(ID)
+	query = model.FormatQueryGet(ID)
 
 	db, err := db.OpenDB()
 	if err != nil {
@@ -57,9 +62,23 @@ func GetUserID(ID int64) (model.User, error) {
 	return userID, nil
 }
 
-/*
-MOCK
-SE EXISTE OS DOIS USUARIOS
-SALDO
-TIPO DE USUARIO
-*/
+func CreateUser(user model.User) (string, error) {
+
+	db, err := db.OpenDB()
+	if err != nil {
+		return "Error opening Data Base", err
+	}
+
+	defer db.Close()
+
+	fmt.Print(user)
+
+	query = model.FormatQueryCreate(user)
+	fmt.Print(query)
+	_, err = db.Query(query)
+	if err != nil {
+		return "Error executing query", err
+	}
+	return "Successful query", nil
+
+}

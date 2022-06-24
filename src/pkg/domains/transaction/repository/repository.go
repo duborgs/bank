@@ -22,7 +22,7 @@ func InsertTransaction(transactionInsert transaction.Transaction) error {
 	defer db.Close()
 
 	query = transaction.FormatQueryInsert(transactionInsert)
-
+	fmt.Print(query)
 	_, err = db.Exec(query)
 	if err != nil {
 		return err

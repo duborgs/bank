@@ -31,4 +31,4 @@ add foreign key (id_dest) references users(id);
 insert into users (name_user, type_user, CPF_CNPJ, email, password_user, wallet) values ('Anderson Amaral Santos ', 'commom', '123.123.123-90','anderson@gmail.com', '123456', 1000.10);
 insert into users (name_user, type_user, CPF_CNPJ, email, password_user, wallet) values ('Maria Santa Cruz', 'commom', '444.123.123-90', 'maria@gmail.com', '444444', 800.10);
 insert into users (name_user, type_user, CPF_CNPJ, email, password_user, wallet) values ('Roberto Firmino da Silva', 'shopkeeper', '444.123.988-90', 'roberto@hotmail.com', 'robertinho', 3000);
-
+insert into users (name_user, type_user, CPF_CNPJ, email, password_user, wallet) values ("Junior da Silva Ferreira", "shopkeeper", "825.510.380-90", "juninho123@", "juninho2022@outlook.com", 100000.00);
