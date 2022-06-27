@@ -5,21 +5,21 @@ create database q2bank;
 use q2bank;
 
 create table users(
-    id      int primary key not null auto_increment,
-    name_user    varchar(50) not null,
-    type_user    enum('commom', 'shopkeeper'),
-    CPF_CNPJ       varchar(50) unique,
-    email   varchar(50) unique not null,
-    password_user   varchar(50) not null,
-    wallet   FLOAT(10.2) not null
+    id              int primary key     not null auto_increment,
+    name_user       varchar(50)         not null,
+    type_user       enum('commom', 'shopkeeper'),
+    CPF_CNPJ        varchar(50) unique,
+    email           varchar(50) unique  not null,
+    password_user   varchar(50)         not null,
+    wallet          FLOAT(10.2)         not null
 );
 
 create table transactions(
-    id int primary key auto_increment,
-    amount FLOAT (10.2) not null,
-    id_origin   int not null,
-    id_dest int not null,
-    date_time datetime not null
+    id          int     primary key auto_increment,
+    amount      float(10.2) not null,
+    id_origin   int         not null,
+    id_dest     int         not null,
+    date_time   datetime    not null
 );
 
 alter table transactions

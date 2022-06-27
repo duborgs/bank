@@ -26,7 +26,7 @@ func GetUserIDHandler(w http.ResponseWriter, r *http.Request) {
 
 	response, err = service.GetUserID(ID)
 	if err != nil {
-		fmt.Print("Erro in getuser", err)
+		fmt.Fprintf(w, "%v", response)
 		return
 	}
 	fmt.Fprintf(w, "%v", response)

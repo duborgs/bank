@@ -6,10 +6,10 @@ import (
 )
 
 type Transaction struct {
-	Value    float64
-	IDOrigin int64
-	IDDestin int64
-	Day_Time string
+	Value    float64 `json:"value"`
+	IDOrigin int64   `json:"payer"`
+	IDDestin int64   `json:"payee"`
+	Day_Time string  `json:"daytime,omitempty"`
 }
 
 func FormatQueryInsert(transaction Transaction) string {

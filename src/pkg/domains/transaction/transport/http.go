@@ -1,12 +1,12 @@
 package transport
 
 import (
+	"encoding/json"
 	"fmt"
-	"log"
+	"io/ioutil"
 	"net/http"
 	"pkg/domains/transaction/service"
 	"pkg/domains/transaction/transaction"
-	"strconv"
 )
 
 var (
@@ -16,33 +16,31 @@ var (
 	msgErro           int
 )
 
-func TransactionHandle(w http.ResponseWriter, r *http.Request) {
+func TransactionHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != http.MethodPost {
 		fmt.Fprint(w, "Method is not POST")
 		return
 	}
 
-	request.IDOrigin, err = strconv.ParseInt(r.FormValue("payer"), 0, 64)
+	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		fmt.Fprint(w, "Error converting payer ID")
+		fmt.Fprint(w, "Error converting json", err)
+	}
+	err = json.Unmarshal(body, &request)
+	if err != nil {
+		fmt.Fprint(w, "Error when ", err)
+	}
+
+	if request.IDDestin < 0 {
+		fmt.Fprint(w, "Error in id payer")
 		return
 	}
 
-	request.IDDestin, err = strconv.ParseInt(r.FormValue("payee"), 0, 64)
-	if err != nil {
-		fmt.Fprint(w, "Error converting payee ID")
+	if request.IDOrigin < 0 {
+		fmt.Fprintf(w, "Error in id payee")
 		return
-	}
 
-	if request.IDOrigin == request.IDDestin {
-		fmt.Fprint(w, "The payer cannot transfer to himself")
-		return
-	}
-	request.Value, err = strconv.ParseFloat(r.FormValue("value"), 64)
-	if err != nil {
-		log.Print("Erro ao realizar parse do IDOrigin")
-		return
 	}
 
 	msg, err = service.MakeTransaction(request)
@@ -61,15 +59,15 @@ func GetTransactionsHandler(w http.ResponseWriter, r *http.Request) {
 	ID = r.FormValue("ID")
 
 	response, err = service.GetTransactions(ID)
-
 	if err != nil {
-		fmt.Print(err)
-		return
-	}
-	if response == "" {
-		fmt.Print(err)
+		fmt.Fprintf(w, "%v", err)
 		return
 	}
 
-	fmt.Fprint(w, response)
+	if response == "" {
+		fmt.Fprintf(w, "%v", err)
+		return
+	}
+
+	fmt.Fprintf(w, "%v", response)
 }
