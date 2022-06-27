@@ -1,11 +1,15 @@
 # ENDPOINTS
   # TRANSACTIONS 
-    .POST: /transaction
-    .GET:/getTransactions
+    . POST: /transaction
+    . GET:/getTransactions
   # USERS:
-    .GET: /getUserID7
-    .POST: /createUser
+    . GET: /getUserID7
+    . POST: /createUser
   
+# IMPORTAR LINK PARA FAZER REQUISIÇÕES
+    . https://www.getpostman.com/collections/0b9d64a2a9130a35f87d
+          
+    
 # INICIALIZANDO APLICAÇÃO COM DOCKER
     . Na pasta raiz
     . docker-compose up -d
@@ -45,7 +49,7 @@
     
 # FUTURAS ATUALIZAÇÕES
     . Melhoria no versionamento das Branc (BR-01, BR-01.1);
-    . Mudar o recebimento do endpoint transaction de r.FormValue para um Body(Json);
+    . Mudar o recebimento do endpoint transaction de r.FormValue para um Body(Json) - Finalizado;
     . Documentação em inglês;
     . Separação de usuário e pessoa;
     . Transferência entre bancos;
