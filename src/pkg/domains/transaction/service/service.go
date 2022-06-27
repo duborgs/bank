@@ -101,6 +101,11 @@ func GetTransactions(ID string) (string, error) {
 	}
 
 	transactionResponse, err = repository.GetTransactions(IDConv)
+
+	if transactionResponse == nil {
+		return "Not transaction in database", err
+	}
+
 	if err != nil {
 		return "Error fetching data from database:", err
 	}

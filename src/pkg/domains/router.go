@@ -11,7 +11,7 @@ import (
 func main() {
 
 	//Router transaction
-	http.HandleFunc("/transaction", transport.TransactionHandle)
+	http.HandleFunc("/transaction", transport.TransactionHandler)
 	http.HandleFunc("/getTransactions", transport.GetTransactionsHandler)
 
 	//Router user

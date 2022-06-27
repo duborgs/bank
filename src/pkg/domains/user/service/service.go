@@ -23,12 +23,12 @@ func GetUserID(ID string) (string, error) {
 
 	IDConv, err = strconv.ParseInt(ID, 0, 64)
 	if err != nil {
-		return "Error", err
+		return "Error in convert ID", err
 	}
 
 	userResponse, err = repository.GetUserID(IDConv)
 	if err != nil {
-		return "Error", err
+		return "Error when search user", err
 	}
 
 	userResponse.Password = ""

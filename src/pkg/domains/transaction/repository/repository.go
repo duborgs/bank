@@ -7,9 +7,8 @@ import (
 )
 
 var (
-	tr           transaction.Transaction
-	transactions []transaction.Transaction
-	query        string
+	tr    transaction.Transaction
+	query string
 )
 
 func InsertTransaction(transactionInsert transaction.Transaction) error {
@@ -22,7 +21,7 @@ func InsertTransaction(transactionInsert transaction.Transaction) error {
 	defer db.Close()
 
 	query = transaction.FormatQueryInsert(transactionInsert)
-	fmt.Print(query)
+
 	_, err = db.Exec(query)
 	if err != nil {
 		return err
@@ -47,6 +46,7 @@ func GetTransactions(ID int64) ([]transaction.Transaction, error) {
 		return nil, err
 	}
 
+	var transactions []transaction.Transaction
 	for data.Next() {
 
 		err = data.Scan(&tr.IDOrigin, &tr.IDDestin, &tr.Day_Time, &tr.Value)

@@ -8,14 +8,17 @@
   
 # INICIALIZANDO APLICAÇÃO COM DOCKER
     . Na pasta raiz
-    . docker-compose up
+    . docker-compose up -d
   
      . cd src/pkg/domains
      . go run router.go  
   
-  # INICIALIZAÇÃO LOCAL
-    . Copiar o arquivo script em src/pkg/bd e executar no mysql local
-    . src/pkg/bd db, err := sql.Open("mysql", "usuarioMysql:senha@tcp(localhost)/q2bank")
+  # INICIALIZAÇÃO COM MYSQL LOCAL
+    . Copiar o arquivo script.sql em src/pkg/bd e executar no mysql local
+    . alterar o arquivo db.go (src/pkg/bd) para db, err := sql.Open("mysql", "usuario:senha@tcp(localhost)/q2bank")
+    . cd src/pkg/domains
+    . go run router.go
+    
   
 # BANCO DE DADOS
     . SGBD utilizado: MYSQL;
@@ -32,5 +35,20 @@
         PRONTO! AGORA É SÓ REALIZAR QUERY'S!
 
         CTRL+D para sair do terminal
-    .Para usar banco local
+    . Para usar banco local
         db, err := sql.Open("mysql", "user:password@tcp(localhost)/banco") - src/pkg/db/db.go
+        
+# OBSERVAÇÕES
+    . Optei por não persistir os dados do container em um volume por conta do problema de autenticação do windows, somente administradores da máquina podem excluir a pasta. Linux não tem esse problema, pois pode utilizar o comando sudo chmod para resolver essa questãpo.
+    . Fiz uma valiadação para que um usuário comum não faça transferência para a própria conta.
+    . Código em inglês para todos os desenvolvedores (brasileiros e estrangeiros) entender, caso tenha necessidade, reutilizar o código.
+    
+# FUTURAS ATUALIZAÇÕES
+    . Melhoria no versionamento das Branc (BR-01, BR-01.1);
+    . Mudar o recebimento do endpoint transaction de r.FormValue para um Body(Json);
+    . Documentação em inglês;
+    . Separação de usuário e pessoa;
+    . Transferência entre bancos;
+    . Criptografia dos dados sensiveis no banco de dados;
+    . Implementação do JWT.  
+  
