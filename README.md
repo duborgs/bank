@@ -42,3 +42,13 @@
     . Optei por não persistir os dados do container em um volume por conta do problema de autenticação do windows, somente administradores da máquina podem excluir a pasta. Linux não tem esse problema, pois pode utilizar o comando sudo chmod para resolver essa questãpo.
     . Fiz uma valiadação para que um usuário comum não faça transferência para a própria conta.
     . Código em inglês para todos os desenvolvedores (brasileiros e estrangeiros) entender, caso tenha necessidade, reutilizar o código.
+    
+# FUTURAS ATUALIZAÇÕES
+    . Melhoria no versionamento das Branc (BR-01, BR-01.1);
+    . Mudar o recebimento do endpoint transaction de r.FormValue para um Body(Json);
+    . Documentação em inglês;
+    . Separação de usuário e pessoa;
+    . Transferência entre bancos;
+    . Criptografia dos dados sensiveis no banco de dados;
+    . Implementação do JWT.  
+  
